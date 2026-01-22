@@ -169,3 +169,16 @@ select option[value="normal"] {
 .btn-secondary:hover {
   background: #d97706;
 }
+
+.fc-event {
+  font-size: 0.85rem;
+  border-radius: 6px;
+}
+
+.fc-event[data-status="PROPOSED"] {
+  opacity: 0.8;
+  border-style: dashed;
+}
+.fc-event[data-type="TASK"] {
+  border-style: dashed;
+}
