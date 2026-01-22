@@ -1,0 +1,59 @@
+.planning-container {
+  padding: 24px;
+  background: #f8fafc;
+  min-height: calc(100vh - 60px);
+}
+
+.planning-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.planning-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-primary {
+  background: #1e3a8a;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: #f59e0b;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.calendar-wrapper {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* FullCalendar override */
+.fc-toolbar-title {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.fc-button {
+  background: #1e3a8a !important;
+  border: none !important;
+}
+
+.fc-button-active {
+  background: #2563eb !important;
+}

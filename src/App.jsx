@@ -5,6 +5,7 @@ import DashboardEmployee from "./pages/DashboardEmployee";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import { useAuth } from "./context/AuthContext";
+import Planning from "./pages/Planning";
 
 export default function App() {
   const { user } = useAuth();
@@ -37,7 +38,14 @@ export default function App() {
         />
 
         {/* Routes futures */}
-        <Route path="/planning" element={<ProtectedRoute><div>Planning</div></ProtectedRoute>} />
+              <Route
+        path="/planning"
+        element={
+          <ProtectedRoute>
+            <Planning />
+          </ProtectedRoute>
+        }
+      />
         <Route path="/absences" element={<ProtectedRoute><div>Absences</div></ProtectedRoute>} />
 
         <Route path="*" element={<Navigate to="/" />} />
