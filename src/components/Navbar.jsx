@@ -14,6 +14,7 @@ export default function Navbar() {
 
         <Link to="/planning">Planning</Link>
         <Link to="/absences">Absences</Link>
+        <Link to="/users">Employées</Link>
       </div>
 
       <button onClick={logout}>Déconnexion</button>

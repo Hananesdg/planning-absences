@@ -1,55 +1,55 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { mockUsers } from "../data/mockUsers";
 import { useAuth } from "../context/AuthContext";
+import "../index.css";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { login, user } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (user) {
-      navigate(user.role === "manager" ? "/manager" : "/employee");
-    }
-  }, [user, navigate]);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const user = await login(email, password);
 
-    const foundUser = mockUsers.find(
-      (u) => u.email === email && u.password === password
-    );
-
-    if (!foundUser) {
-      alert("Identifiants incorrects");
+    if (!user) {
+      setError("Identifiants incorrects");
       return;
     }
 
-    login(foundUser);
+    if (user.role === "MANAGER") navigate("/manager");
+    else navigate("/employee");
   };
 
-  return (
-    <div className="login-box">
-      <h2>Connexion</h2>
+return (
+  <div className="login-box">
+    <h2>Connexion</h2>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+    {error && <p style={{ color: "red", marginBottom: "1rem" }}>{error}</p>}
 
-        <input
-          placeholder="Mot de passe"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+    <form onSubmit={handleSubmit}>
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
 
-        <button type="submit">Se connecter</button>
-      </form>
-    </div>
-  );
+      <input
+        type="password"
+        placeholder="Mot de passe"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
+
+      <button type="submit">Se connecter</button>
+    </form>
+  </div>
+);
+
 }

@@ -6,49 +6,89 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import { useAuth } from "./context/AuthContext";
 import Planning from "./pages/Planning";
+import UsersManager from "./pages/UsersManager";
+
 
 export default function App() {
   const { user } = useAuth();
 
   return (
     <>
-      {/* NAVBAR visible UNIQUEMENT si connecté */}
+      {/* Navbar visible uniquement si connecté */}
       {user && <Navbar />}
 
       <Routes>
-        {/* Login toujours accessible */}
-        <Route path="/" element={<Login />} />
+        {/* Route LOGIN */}
+        <Route
+          path="/"
+          element={
+            user ? (
+              <Navigate to={user.role === "MANAGER" ? "/manager" : "/employee"} />
+            ) : (
+              <Login />
+            )
+          }
+        />
 
+        {/* DASHBOARD MANAGER */}
         <Route
           path="/manager"
           element={
-            <ProtectedRoute role="manager">
+            <ProtectedRoute role="MANAGER">
               <DashboardManager />
             </ProtectedRoute>
           }
         />
 
+        {/* DASHBOARD EMPLOYEE */}
         <Route
           path="/employee"
           element={
-            <ProtectedRoute role="employee">
+            <ProtectedRoute role="EMPLOYEE">
               <DashboardEmployee />
             </ProtectedRoute>
           }
         />
 
-        {/* Routes futures */}
-              <Route
-        path="/planning"
-        element={
-          <ProtectedRoute>
-            <Planning />
-          </ProtectedRoute>
-        }
-      />
-        <Route path="/absences" element={<ProtectedRoute><div>Absences</div></ProtectedRoute>} />
+        {/* PLANNING (connecté seulement) */}
+        <Route
+          path="/planning"
+          element={
+            <ProtectedRoute>
+              <Planning />
+            </ProtectedRoute>
+          }
+        />
 
-        <Route path="*" element={<Navigate to="/" />} />
+        {/* ABSENCES */}
+        <Route
+          path="/absences"
+          element={
+            <ProtectedRoute>
+              <div>Absences</div>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/users"
+          element={
+            <ProtectedRoute role="MANAGER">
+              <UsersManager />
+            </ProtectedRoute>
+          }
+        />
+
+
+        {/* FALLBACK INTELLIGENT */}
+        <Route
+          path="*"
+          element={
+            <Navigate
+              to={user ? (user.role === "MANAGER" ? "/manager" : "/employee") : "/"}
+            />
+          }
+        />
       </Routes>
     </>
   );
